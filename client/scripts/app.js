@@ -7,7 +7,7 @@ var Movie = Backbone.Model.extend({
 
   toggleLike: function() {
     this.set('like', false);
-    console.log('toggleLike triggered')
+    // console.log('toggleLike triggered')
   }
 
 });
@@ -67,7 +67,7 @@ var MovieView = Backbone.View.extend({
                         </div>'),
 
   initialize: function() {
-    this.model.on('change', this.render.bind(this));
+    this.model.on('change', this.render,this);
   },
 // dom events
   events: {
@@ -76,11 +76,11 @@ var MovieView = Backbone.View.extend({
 
   handleClick: function() {
     this.model.toggleLike();
-    console.log('handleclick');
+    // console.log('handleclick');
   },
 
   render: function() {
-    console.log(this.$el)
+    // console.log(this.$el)
     this.$el.html(this.template(this.model.attributes));
     return this.$el;
   }
@@ -90,7 +90,9 @@ var MovieView = Backbone.View.extend({
 var MoviesView = Backbone.View.extend({
 
   initialize: function() {
-    // your code here
+    var moviesView = this;
+    this.collection.on('sort', this.render ,this)
+    console.log(this);
   },
 
   render: function() {
